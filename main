@@ -1,0 +1,110 @@
+const puppeteer = require('puppeteer');
+
+(async () => {
+    const browser = await puppeteer.launch({ headless: false }); // Modo visível para testes
+    const page = await browser.newPage();
+
+    // Lidar com alerta de confirmação antes de qualquer interação
+    page.on('dialog', async dialog => {
+        console.log(`Alerta detectado: ${dialog.message()}`);
+        await dialog.accept(); // Fecha o alerta
+    });
+
+    await page.goto('https://max00642.itstransdata.com/TDMax/CadastroEstudantes.aspx');
+
+    // Verifica se a tela de login aparece
+    const loginSelector = '#ctl00_cphconteudo_login_UserName';
+    const senhaSelector = '#ctl00_cphconteudo_login_Password';
+
+    if (await page.$(loginSelector) !== null) {
+        await page.type(loginSelector, 'luisbuscher');
+        await page.type(senhaSelector, 'Fabiano05@');
+
+        // Pressiona Enter e aguarda a navegação ao mesmo tempo
+        await Promise.all([
+            page.keyboard.press('Enter'),
+            page.waitForNavigation({ waitUntil: 'networkidle2' }) // Aguarda a página carregar
+        ]);
+    }
+
+    // Espera 1 segundos antes de continuar
+    await new Promise(r => setTimeout(r, 500));
+
+    // Espera os campos carregarem antes de tentar interagir
+    await page.waitForSelector('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome', { timeout: 1000 });
+
+    // Preencher os dados pessoais do estudante
+    await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome', 'João da Silva'); // NOME
+    await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtCpf', '12345678900'); // CPF
+    await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtRg', '12345678900') // RG
+    await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtEmissor', 'SSP');
+
+    // Selecionar opção de sexo (Exemplo: Masculino)
+    await page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_rbtSexo_0');
+
+    await page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_chkLimiteMensal');
+
+    await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtLimiteMensal', '50'); // Limite mensal
+
+
+    await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtDataNascEs', '01/01/2000');
+    await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNomeMaeEs', 'Maria da Silva');
+    await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNaturalidade', 'São Paulo');
+
+    // Selecionar estado (Exemplo: São Paulo, que seria a opção correta no dropdown)
+    await page.select('#ctl00_cphconteudo_fvCadastro_UcCadastros1_cmbEstado', 'RS');
+
+    // **PASSO 1: Modificar o atributo "selected" da opção diretamente**
+    const optionXPath = '//*[@id="ctl00_cphconteudo_fvCadastro_UcCadastros1_cmbSubTipoPF"]/option[5]';
+
+    // Modifica diretamente o atributo "selected" da opção desejada
+    await page.evaluate((optionXPath) => {
+        const option = document.evaluate(optionXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        if (option) {
+            option.selected = true; // Marca a opção como selecionada
+        }
+    }, optionXPath);
+
+    console.log('Opção do select selecionada!');
+
+    // **PASSO 2: Modificar o atributo "selected" da segunda opção (cmbPerfilCompraPF)**
+    const optionXPath2 = '//*[@id="ctl00_cphconteudo_fvCadastro_UcCadastros1_cmbPerfilCompraPF"]/option[3]';
+
+    // Modifica diretamente o atributo "selected" da segunda opção desejada
+    await page.evaluate((optionXPath) => {
+        const option = document.evaluate(optionXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        if (option) {
+            option.selected = true; // Marca a opção como selecionada
+        }
+    }, optionXPath2);
+
+    console.log('Ambas as opções do select selecionadas!');
+
+    console.log('Dados do estudante preenchidos!');
+
+    // PÁGINA ENDERECO:
+    await page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvPrincipal_lvEnderecos');
+
+    // Aguarda o carregamento da nova página/elemento após o clique
+    await page.waitForNavigation({ waitUntil: 'networkidle0' }); // Aguarda até que a navegação termine
+
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtDescricao', 'RESIDENCIAL'); // __PADRÃO__
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtEndereco', 'Jardim Planalto'); // Endereco
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtNumero', '1'); // Numero
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtBairro', 'Primavera'); // Bairro
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtCidade', 'Esteio'); // Cidade
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtCep', '992707350'); // Cep
+    await page.select('#ctl00_cphconteudo_UcEnderecos_cmbEstado', 'RS'); // Estado
+
+    // PAGINA CONTATOS:
+    await page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvEnderecos_lvContatos');
+
+    // Aguarda o carregamento da nova página/elemento após o clique
+    await page.waitForNavigation({ waitUntil: 'networkidle0' }); // Aguarda até que a navegação termine
+
+    await page.type('#ctl00_cphconteudo_UCContatos1_txtDescricao', 'PESSOAL'); // __PADRÃO__
+    await page.type('#ctl00_cphconteudo_UCContatos1_txtCelular', '519999-9999'); // CELULAR
+
+    // Manter navegador aberto para testar
+    // await browser.close();
+})();
