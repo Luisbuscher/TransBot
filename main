@@ -6,7 +6,6 @@ const puppeteer = require('puppeteer');
 
     // Lidar com alerta de confirmação antes de qualquer interação
     page.on('dialog', async dialog => {
-        console.log(`Alerta detectado: ${dialog.message()}`);
         await dialog.accept(); // Fecha o alerta
     });
 
@@ -41,12 +40,8 @@ const puppeteer = require('puppeteer');
 
     // Selecionar opção de sexo (Exemplo: Masculino)
     await page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_rbtSexo_0');
-
     await page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_chkLimiteMensal');
-
     await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtLimiteMensal', '50'); // Limite mensal
-
-
     await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtDataNascEs', '01/01/2000');
     await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNomeMaeEs', 'Maria da Silva');
     await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNaturalidade', 'São Paulo');
@@ -65,8 +60,6 @@ const puppeteer = require('puppeteer');
         }
     }, optionXPath);
 
-    console.log('Opção do select selecionada!');
-
     // **PASSO 2: Modificar o atributo "selected" da segunda opção (cmbPerfilCompraPF)**
     const optionXPath2 = '//*[@id="ctl00_cphconteudo_fvCadastro_UcCadastros1_cmbPerfilCompraPF"]/option[3]';
 
@@ -77,10 +70,6 @@ const puppeteer = require('puppeteer');
             option.selected = true; // Marca a opção como selecionada
         }
     }, optionXPath2);
-
-    console.log('Ambas as opções do select selecionadas!');
-
-    console.log('Dados do estudante preenchidos!');
 
     // PÁGINA ENDERECO:
     await page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvPrincipal_lvEnderecos');
@@ -104,6 +93,36 @@ const puppeteer = require('puppeteer');
 
     await page.type('#ctl00_cphconteudo_UCContatos1_txtDescricao', 'PESSOAL'); // __PADRÃO__
     await page.type('#ctl00_cphconteudo_UCContatos1_txtCelular', '519999-9999'); // CELULAR
+
+    // PAGINA ESCOLA:
+    await page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvContatos_lvEscolas');
+
+    // Aguarda o carregamento da nova página/elemento após o clique
+    await page.waitForNavigation({ waitUntil: 'networkidle0' }); // Aguarda até que a navegação termine
+
+    await page.type('#ctl00_cphconteudo_UcEscolas1_UcBuscaCadastro_txtBusca', 'ESCOLA'); // __PADRÃO__
+    page.keyboard.press('Enter');
+
+    // Aguarda o carregamento
+    await page.waitForNavigation({ waitUntil: 'networkidle0' });
+
+    await page.type('#ctl00_cphconteudo_UcEscolas1_txtSerie', '1'); // Série
+    await page.type('#ctl00_cphconteudo_UcEscolas1_txtCurso', 'Ensino medio'); // Curso
+    await page.click('#ctl00_cphconteudo_UcEscolas1_chkPeriodo_0'); // Matutino
+    await page.click('#ctl00_cphconteudo_UcEscolas1_chkPeriodo_1'); // Vesperino
+    await page.type('#ctl00_cphconteudo_UcEscolas1_txtMatricula', 'NI'); // __PADRÃO__
+
+    // Função para formatar a data no formato ddmmyyyy
+    const formatDate = date => `${String(date.getDate()).padStart(2, '0')}${String(date.getMonth() + 1).padStart(2, '0')}${date.getFullYear()}`;
+
+    // Preenche a Data de Início com a data atual
+    const today = new Date();
+    await page.type('#ctl00_cphconteudo_UcEscolas1_txtDataInicio', formatDate(today));
+
+    // Preenche a Data de Término com a data de 6 meses a frente
+    today.setMonth(today.getMonth() + 6);
+    await page.type('#ctl00_cphconteudo_UcEscolas1_txtDataTermino', formatDate(today));
+
 
     // Manter navegador aberto para testar
     // await browser.close();
