@@ -18,14 +18,16 @@ const perguntar = (pergunta) => new Promise(resolve => rl.question(pergunta, res
     const cpf = await perguntar('CPF: ');
     const nomeMae = await perguntar('NOME DA MÃE: ');
     const naturalidade = await perguntar('NATURALIDADE: ');
-    const estado = await perguntar('ESTADO (SIGLA): ');
+    const nascimento = await perguntar('NASCIMENTO: ');
 
     const endereco = await perguntar('ENDERECO: ');
     const numero = await perguntar('NUMERO: ');
     const bairro = await perguntar('BAIRRO: ');
     const cidade = await perguntar('CIDADE: ');
     const cep = await perguntar('CEP: ');
-    const estado2 = await perguntar('ESTADO (SIGLA): ');
+
+    const serie = await perguntar('SERIE: ');
+    const curso = await perguntar('CURSO: ');
 
     rl.close(); // Fecha o readline após coletar os dados
 
@@ -70,12 +72,12 @@ const perguntar = (pergunta) => new Promise(resolve => rl.question(pergunta, res
     await page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_rbtSexo_0');
     await page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_chkLimiteMensal');
     await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtLimiteMensal', '50'); // Limite mensal
-    await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtDataNascEs', '01/01/2000');
+    await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtDataNascEs', nascimento); // Data de nascimento
     await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNomeMaeEs', nomeMae); // Nome da mae
     await page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNaturalidade', naturalidade); // Naturalidade
 
     // Selecionar estado (Exemplo: São Paulo, que seria a opção correta no dropdown)
-    await page.select('#ctl00_cphconteudo_fvCadastro_UcCadastros1_cmbEstado', estado); // Estado (sigla)
+    await page.select('#ctl00_cphconteudo_fvCadastro_UcCadastros1_cmbEstado', 'RS'); // Estado (sigla)
 
     // **PASSO 1: Modificar o atributo "selected" da opção diretamente**
     const optionXPath = '//*[@id="ctl00_cphconteudo_fvCadastro_UcCadastros1_cmbSubTipoPF"]/option[5]';
@@ -106,11 +108,11 @@ const perguntar = (pergunta) => new Promise(resolve => rl.question(pergunta, res
     await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
     await page.type('#ctl00_cphconteudo_UcEnderecos_txtDescricao', 'RESIDENCIAL'); // __PADRÃO__
-    await page.type('#ctl00_cphconteudo_UcEnderecos_txtEndereco', 'Jardim Planalto'); // Endereco
-    await page.type('#ctl00_cphconteudo_UcEnderecos_txtNumero', '1'); // Numero
-    await page.type('#ctl00_cphconteudo_UcEnderecos_txtBairro', 'Primavera'); // Bairro
-    await page.type('#ctl00_cphconteudo_UcEnderecos_txtCidade', 'Esteio'); // Cidade
-    await page.type('#ctl00_cphconteudo_UcEnderecos_txtCep', '992707350'); // Cep
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtEndereco', endereco); // Endereco
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtNumero', numero); // Numero
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtBairro', bairro); // Bairro
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtCidade', cidade); // Cidade
+    await page.type('#ctl00_cphconteudo_UcEnderecos_txtCep', cep); // Cep
     await page.select('#ctl00_cphconteudo_UcEnderecos_cmbEstado', 'RS'); // Estado
 
     // PAGINA CONTATOS:
@@ -134,8 +136,8 @@ const perguntar = (pergunta) => new Promise(resolve => rl.question(pergunta, res
     // Aguarda o carregamento
     await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
-    await page.type('#ctl00_cphconteudo_UcEscolas1_txtSerie', '1'); // Série
-    await page.type('#ctl00_cphconteudo_UcEscolas1_txtCurso', 'Ensino medio'); // Curso
+    await page.type('#ctl00_cphconteudo_UcEscolas1_txtSerie', serie); // Série
+    await page.type('#ctl00_cphconteudo_UcEscolas1_txtCurso', curso); // Curso
     await page.click('#ctl00_cphconteudo_UcEscolas1_chkPeriodo_0'); // Matutino
     await page.click('#ctl00_cphconteudo_UcEscolas1_chkPeriodo_1'); // Vesperino
     await page.type('#ctl00_cphconteudo_UcEscolas1_txtMatricula', 'NI'); // __PADRÃO__
@@ -162,16 +164,13 @@ const perguntar = (pergunta) => new Promise(resolve => rl.question(pergunta, res
     // Aguarda o carregamento da nova página/elemento após o clique
     await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
-    await page.type('#ctl00_cphconteudo_UcTabelaHorarios1_gvHorario_ctl02_lbeQtdAcesso', '255');
-    await page.type('#ctl00_cphconteudo_UcTabelaHorarios1_gvHorario_ctl03_lbeQtdAcesso', '255');
-
     await page.evaluate(() => {
         for (let i = 2; i <= 8; i++) {
             document.querySelector(`#ctl00_cphconteudo_UcTabelaHorarios1_gvHorario_ctl0${i}_lbeQtdAcesso`).value = '';
         }
     });
     for (let i = 2; i <= 8; i++) {
-        await page.type(`#ctl00_cphconteudo_UcTabelaHorarios1_gvHorario_ctl0${i}_lbeQtdAcesso`, '255');
+        await page.type(`#ctl00_cphconteudo_UcTabelaHorarios1_gvHorario_ctl0${i}_lbeQtdAcesso`, '4');
     }
 
     // PAGINA LINHAS:
@@ -182,6 +181,9 @@ const perguntar = (pergunta) => new Promise(resolve => rl.question(pergunta, res
     await page.click('#ctl00_cphconteudo_UcVinculaGruposLinhas1_btnAdicionar');
 
     await page.waitForNavigation({ waitUntil: 'networkidle0' }); // Aguarda até que a navegação termine
+
+    // Espera 1 segundos antes de continuar
+    await new Promise(r => setTimeout(r, 900));
 
     await page.select('#ctl00_cphconteudo_UcVinculaGruposLinhas1_lstDisponiveis', '1');
     await page.click('#ctl00_cphconteudo_UcVinculaGruposLinhas1_btnAdicionaGrupo');
