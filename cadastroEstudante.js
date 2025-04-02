@@ -19,6 +19,11 @@ class CadastroEstudante {
     async coletarDados() {
         console.log("Preencha os dados do estudante:");
 
+        this.dadosTeste = {
+            nome: "tst", cpf: "90909090909", nomeMae: "tst", naturalidade: "tst",
+            nascimento: "01010101", endereco: "tst", numero: "tst", bairro: "tst", cidade: "tst", cep: "99999999", serie: "1", curso: "tst"
+        }
+
         this.dados = {
             nome: await this.perguntar('NOME: '),
             cpf: await this.perguntar('CPF: '),
@@ -59,7 +64,7 @@ class CadastroEstudante {
     }
 
     async preencherFormulario() {
-        const { nome, cpf, nomeMae, naturalidade, nascimento, endereco, numero, bairro, cidade, cep, serie, curso } = this.dados;
+        const { nome, cpf, nomeMae, naturalidade, nascimento, endereco, numero, bairro, cidade, cep, serie, curso } = this.dadosTeste;
 
         await new Promise(r => setTimeout(r, 500));// Espera antes de continuar
 
@@ -111,24 +116,31 @@ class CadastroEstudante {
         await this.page.type('#ctl00_cphconteudo_UcEnderecos_txtCep', cep); // Cep
         await this.page.select('#ctl00_cphconteudo_UcEnderecos_cmbEstado', 'RS'); // Estado
 
+        await this.page.click('#ctl00_cphconteudo_UcEnderecos_UcControleNavegacao_btnInserir'); // Inclui
+
         // PAGINA CONTATOS:
+        await this.page.waitForSelector('#ctl00_cphconteudo_ctl00_cphconteudo_lvEnderecos_lvContatos', { visible: true });
+        await this.page.focus('#ctl00_cphconteudo_ctl00_cphconteudo_lvEnderecos_lvContatos');
         await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvEnderecos_lvContatos');
-        // Aguarda o carregamento da nova página/elemento após o clique
         await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
 
         await this.page.type('#ctl00_cphconteudo_UCContatos1_txtDescricao', 'NI'); // __PADRÃO__
         await this.page.type('#ctl00_cphconteudo_UCContatos1_txtCelular', 'NI'); // CELULAR
 
+        await this.page.click('#ctl00_cphconteudo_UCContatos1_UcControleNavegacao_btnInserir'); // Inclui
+
         // PAGINA ESCOLA:
+        // Aguarda a navegação causada pelo clique (recarregamento)
+        await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
         await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvContatos_lvEscolas');
-        // Aguarda o carregamento da nova página/elemento após o clique
-        await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
+        await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
 
         await this.page.type('#ctl00_cphconteudo_UcEscolas1_UcBuscaCadastro_txtBusca', 'ESCOLA'); // __PADRÃO__
         this.page.keyboard.press('Enter');
         // Aguarda o carregamento
         await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
         await this.page.type('#ctl00_cphconteudo_UcEscolas1_txtSerie', serie); // Série
+        await this.page.select('#ctl00_cphconteudo_UcEscolas1_ddlGrau', '1'); // Grau
         await this.page.type('#ctl00_cphconteudo_UcEscolas1_txtCurso', curso); // Curso
         await this.page.click('#ctl00_cphconteudo_UcEscolas1_chkPeriodo_0'); // Matutino
         await this.page.click('#ctl00_cphconteudo_UcEscolas1_chkPeriodo_1'); // Vesperino
@@ -143,10 +155,13 @@ class CadastroEstudante {
         today.setMonth(today.getMonth() + 6);
         await this.page.type('#ctl00_cphconteudo_UcEscolas1_txtDataTermino', formatDate(today));
 
+        await this.page.click('#ctl00_cphconteudo_UcEscolas1_UcControleNavegacao1_btnInserir'); // Inclui
+
         // PAGINA HORARIOS:
+        await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
         await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvEscolas_lvHorarios');
-        // Aguarda o carregamento da pagina
-        await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
+        await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
+        console.log("COncluida ")
 
         await this.page.select('#ctl00_cphconteudo_UcTabelaHorarios1_cmbPadraoHorario', '5');
 
@@ -167,10 +182,8 @@ class CadastroEstudante {
         await this.page.click('#ctl00_cphconteudo_UcVinculaGruposLinhas1_btnAdicionar');
         await this.page.waitForNavigation({ waitUntil: 'networkidle0' }); // Aguarda até que a navegação termine
 
-        // Espera 1 segundos antes de continuar
-        await new Promise(r => setTimeout(r, 2000));
-
-        await this.page.select('#ctl00_cphconteudo_UcVinculaGruposLinhas1_lstDisponiveis', '1');
+        await this.page.waitForSelector('#ctl00_cphconteudo_UcVinculaGruposLinhas1_lstDisponiveis', { visible: true });
+        await this.page.select('#ctl00_cphconteudo_UcVinculaGruposLinhas1_lstDisponiveis', '1'); // Substitua '1' pelo valor correto da opção
         await this.page.click('#ctl00_cphconteudo_UcVinculaGruposLinhas1_btnAdicionaGrupo');
 
     }
