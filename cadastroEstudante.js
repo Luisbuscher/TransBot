@@ -38,6 +38,7 @@ class CadastroEstudante {
             cep: await this.perguntar('CEP: '),
 
             serie: await this.perguntar('serie: '),
+            grau: await this.perguntar('Grau Selecione o Número da Opção\n1 - Fundamental\n2 - Médio\n3 - Superior\nOpção Escolhida: '),
             curso: await this.perguntar('curso: ')
         };
 
@@ -64,7 +65,7 @@ class CadastroEstudante {
     }
 
     async preencherFormulario() {
-        const { nome, cpf, nomeMae, naturalidade, nascimento, endereco, numero, bairro, cidade, cep, serie, curso } = this.dadosTeste;
+        const { nome, cpf, nomeMae, naturalidade, nascimento, endereco, numero, bairro, cidade, cep, serie, grau, curso } = this.dados;
 
         await new Promise(r => setTimeout(r, 500));// Espera antes de continuar
 
@@ -140,7 +141,7 @@ class CadastroEstudante {
         // Aguarda o carregamento
         await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
         await this.page.type('#ctl00_cphconteudo_UcEscolas1_txtSerie', serie); // Série
-        await this.page.select('#ctl00_cphconteudo_UcEscolas1_ddlGrau', '1'); // Grau
+        await this.page.select('#ctl00_cphconteudo_UcEscolas1_ddlGrau', grau); // Grau
         await this.page.type('#ctl00_cphconteudo_UcEscolas1_txtCurso', curso); // Curso
         await this.page.click('#ctl00_cphconteudo_UcEscolas1_chkPeriodo_0'); // Matutino
         await this.page.click('#ctl00_cphconteudo_UcEscolas1_chkPeriodo_1'); // Vesperino
