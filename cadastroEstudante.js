@@ -21,7 +21,7 @@ class CadastroEstudante {
 
         this.dadosTeste = {
             nome: "tst", cpf: "90909090909", nomeMae: "tst", naturalidade: "tst",
-            nascimento: "01010101", endereco: "tst", numero: "tst", bairro: "tst", cidade: "tst", cep: "99999999", serie: "1", curso: "tst"
+            nascimento: "01010101", endereco: "tst", numero: "tst", bairro: "tst", cidade: "tst", cep: "99999999", serie: "1", grau:"1", curso: "tst"
         }
 
         this.dados = {
@@ -162,7 +162,7 @@ class CadastroEstudante {
         await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
         await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvEscolas_lvHorarios');
         await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
-        console.log("COncluida ")
+        console.log("Concluida ")
 
         await this.page.select('#ctl00_cphconteudo_UcTabelaHorarios1_cmbPadraoHorario', '5');
 
