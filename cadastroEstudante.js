@@ -17,30 +17,13 @@ class CadastroEstudante {
     }
 
     async coletarDados() {
-        console.log("Preencha os dados do estudante:");
 
         this.dadosTeste = {
             nome: "tst", cpf: "90909090909", nomeMae: "tst", naturalidade: "tst",
             nascimento: "01010101", endereco: "tst", numero: "tst", bairro: "tst", cidade: "tst", cep: "99999999", serie: "1", grau:"1", curso: "tst"
         }
 
-        this.dados = {
-            nome: await this.perguntar('NOME: '),
-            cpf: await this.perguntar('CPF: '),
-            nomeMae: await this.perguntar('NOME DA MÃE: '),
-            naturalidade: await this.perguntar('NATURALIDADE: '),
-            nascimento: await this.perguntar('NASCIMENTO: '),
-
-            endereco: await this.perguntar('ENDERECO: '),
-            numero: await this.perguntar('NUMERO: '),
-            bairro: await this.perguntar('BAIRRO: '),
-            cidade: await this.perguntar('CIDADE: '),
-            cep: await this.perguntar('CEP: '),
-
-            serie: await this.perguntar('serie: '),
-            grau: await this.perguntar('Grau Selecione o Número da Opção\n1 - Fundamental\n2 - Médio\n3 - Superior\nOpção Escolhida: '),
-            curso: await this.perguntar('curso: ')
-        };
+        this.dados;
 
         this.rl.close();
     }
@@ -162,7 +145,6 @@ class CadastroEstudante {
         await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
         await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvEscolas_lvHorarios');
         await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
-        console.log("Concluida ")
 
         await this.page.select('#ctl00_cphconteudo_UcTabelaHorarios1_cmbPadraoHorario', '5');
 
