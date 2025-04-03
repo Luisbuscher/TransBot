@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer');
-require('dotenv').config();
+// require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') }); // Garante que o executavel achara o .env
 const readline = require('readline');
 
 class CadastroEstudante {
@@ -50,7 +52,7 @@ class CadastroEstudante {
     async preencherFormulario() {
         const { nome, cpf, nomeMae, naturalidade, nascimento, endereco, numero, bairro, cidade, cep, serie, grau, curso } = this.dados;
 
-        await new Promise(r => setTimeout(r, 500));// Espera antes de continuar
+        await new Promise(r => setTimeout(r, 1000));// Espera antes de continuar
 
         // Espera os campos carregarem antes de tentar interagir
         await this.page.waitForSelector('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome');
