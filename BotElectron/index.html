@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.24/dist/css/uikit.min.css" />
+    
+    <!-- UIkit JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.24/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.24/dist/js/uikit-icons.min.js"></script>
+    <title>Cadastro de Estudante</title>
+</head>
+
+<body>
+    <div class="uk-container uk-margin-large-top">
+        <h1 class="uk-heading-line uk-text-center"><span>Cadastro de Estudante</span></h1>
+
+        <form class="uk-form-stacked uk-card uk-card-default uk-card-body uk-width-1-2@m uk-align-center">
+            <!-- Nome -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="nome">Nome:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="nome" type="text" placeholder="Digite seu nome" required>
+                </div>
+            </div>
+
+            <!-- CPF -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="cpf">CPF:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="cpf" type="text" placeholder="Digite seu CPF" oninput="formatarCPF(this)" maxlength="14" required>
+                </div>
+            </div>
+
+            <!-- Nome da Mãe -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="nomeMae">Nome da Mãe:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="nomeMae" type="text" placeholder="Digite o nome da mãe" required>
+                </div>
+            </div>
+
+            <!-- Naturalidade -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="naturalidade">Naturalidade:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="naturalidade" type="text" placeholder="Digite a cidade de nascimento" required>
+                </div>
+            </div>
+
+            <!-- Data de Nascimento -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="nascimento">Data de Nascimento:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="nascimento" type="date" required>
+                </div>
+            </div>
+
+            <!-- Endereço -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="endereco">Endereço:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="endereco" type="text" placeholder="Digite seu endereço" required>
+                </div>
+            </div>
+
+            <!-- Número -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="numero">Número:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="numero" type="number" placeholder="Número" required>
+                </div>
+            </div>
+
+            <!-- Bairro -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="bairro">Bairro:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="bairro" type="text" placeholder="Digite seu bairro" required>
+                </div>
+            </div>
+
+            <!-- Cidade -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="cidade">Cidade:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="cidade" type="text" placeholder="Digite sua cidade" required>
+                </div>
+            </div>
+
+            <!-- CEP -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="cep">CEP:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="cep" type="text" placeholder="Digite seu CEP" required>
+                </div>
+            </div>
+
+            <!-- Série -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="serie">Série:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="serie" type="text" placeholder="Digite sua série" required>
+                </div>
+            </div>
+
+            <!-- Grau -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="grau">Grau:</label>
+                <div class="uk-form-controls">
+                    <select class="uk-select" id="grau" required>
+                        <option value="">Selecione...</option>
+                        <option value="1">Fundamental</option>
+                        <option value="2">Médio</option>
+                        <option value="3">Superior</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Curso -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="curso">Curso:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="curso" type="text" placeholder="Digite seu curso" required>
+                </div>
+            </div>
+
+            <!-- Botão de Enviar -->
+            <div class="uk-margin uk-text-center">
+                <button class="uk-button uk-button-primary uk-width-1-1" type="submit">Enviar</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
