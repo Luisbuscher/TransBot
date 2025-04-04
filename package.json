@@ -1,21 +1,42 @@
 {
-  "name": "botelectron",
+  "name": "ultron",
   "version": "1.0.0",
   "main": "main.js",
+  "author": "",
+  "description": "",
+  "license": "ISC",
   "scripts": {
     "start": "electron .",
+    "dist": "electron-builder",
     "package-win": "electron-packager . BotElectron --platform=win32 --arch=x64 --out=dist/ --overwrite"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "puppeteer": "^24.6.0",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "puppeteer": "^24.6.0"
   },
   "devDependencies": {
     "electron": "^35.1.3",
+    "electron-builder": "^26.0.12",
     "electron-packager": "^17.1.2"
+  },
+  "build": {
+    "appId": "luisbuscher",
+    "productName": "Ultron",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }
