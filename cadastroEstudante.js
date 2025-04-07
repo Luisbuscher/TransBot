@@ -1,13 +1,14 @@
-const puppeteer = require('puppeteer');
-// require('dotenv').config();
+const puppeteer = require('puppeteer-core');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') }); // Garante que o executavel achara o .env
 const readline = require('readline');
+const { app } = require('electron');
 
 class CadastroEstudante {
     constructor() {
         this.user = process.env.USER;
         this.password = process.env.PASSWORD;
+        this.link_estudante = process.env.LINK_ESTUDANTE;
         this.rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout
@@ -22,7 +23,7 @@ class CadastroEstudante {
 
         this.dadosTeste = {
             nome: "tst", cpf: "90909090909", nomeMae: "tst", naturalidade: "tst",
-            nascimento: "01010101", endereco: "tst", numero: "tst", bairro: "tst", cidade: "tst", cep: "99999999", serie: "1", grau:"1", curso: "tst"
+            nascimento: "01010101", endereco: "tst", numero: "tst", bairro: "tst", cidade: "tst", cep: "99999999", serie: "1", grau: "1", curso: "tst"
         }
 
         this.dados;
@@ -31,13 +32,23 @@ class CadastroEstudante {
     }
 
     async iniciarNavegador() {
-        this.browser = await puppeteer.launch({ headless: false });
+        const chromePath = path.join(
+            app.isPackaged ? process.resourcesPath : __dirname,
+            'chromium',
+            'chrome-win64',
+            'chrome.exe'
+        );
+        this.browser = await puppeteer.launch({
+            executablePath: chromePath,
+            headless: false,
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
         this.page = await this.browser.newPage();
         this.page.on('dialog', async dialog => await dialog.accept()); // Fecha alertas
     }
 
     async login() {
-        await this.page.goto('https://max00642.itstransdata.com/TDMax/CadastroEstudantes.aspx');
+        await this.page.goto(this.link_estudante);
 
         if (await this.page.$('#ctl00_cphconteudo_login_UserName') !== null) {
             await this.page.type('#ctl00_cphconteudo_login_UserName', this.user);
