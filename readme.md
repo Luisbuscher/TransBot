@@ -1,3 +1,5 @@
+![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
+
 # Depencencies
 
 ## .env:
@@ -11,6 +13,11 @@
 ## Instalar as dependencias do projeto:
 ### Basta instalar as bibliotecas necessarias com o seguinte comando:
     npm install
+
+## Ter a pasta chromium do Puppeter na raiz do projeto:
+    /chromium
+        /chrome-win64
+            files
 
 ## Criar Executavel:
     npx electron-packager . BotElectron --platform=win32 --arch=x64 --out=dist --overwrite
