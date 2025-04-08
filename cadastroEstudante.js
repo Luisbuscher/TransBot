@@ -40,7 +40,7 @@ class CadastroEstudante {
         );
         this.browser = await puppeteer.launch({
             executablePath: chromePath,
-            headless: false,
+            headless: false, // True = nao mostra janela chrome; False mostra
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
         this.page = await this.browser.newPage();
@@ -63,9 +63,7 @@ class CadastroEstudante {
     async preencherFormulario() {
         const { nome, cpf, nomeMae, naturalidade, nascimento, endereco, numero, bairro, cidade, cep, serie, grau, curso } = this.dados;
 
-        await new Promise(r => setTimeout(r, 1000));// Espera antes de continuar
-
-        // Espera os campos carregarem antes de tentar interagir
+        // Espera os campos carregarem antes de interagir
         await this.page.waitForSelector('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome');
 
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome', nome);
@@ -102,7 +100,7 @@ class CadastroEstudante {
 
         // PÁGINA ENDERECO:
         await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvPrincipal_lvEnderecos');
-        // Aguarda o carregamento da nova página/elemento após o clique
+        // Aguarda o carregamento
         await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
 
         await this.page.type('#ctl00_cphconteudo_UcEnderecos_txtDescricao', 'RESIDENCIAL'); // __PADRÃO__

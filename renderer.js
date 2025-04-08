@@ -1,6 +1,10 @@
-document.getElementById('cadastroForm').addEventListener('submit', (event) => {
-    event.preventDefault();
+document.getElementById('cadastroForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
+    // Abre o modal de loading
+    UIkit.modal('#loadingModal').show();
+
+    // Aqui você coleta os dados do formulário
     const dados = {
         nome: document.getElementById('nome').value,
         cpf: document.getElementById('cpf').value,
@@ -17,5 +21,16 @@ document.getElementById('cadastroForm').addEventListener('submit', (event) => {
         curso: document.getElementById('curso').value
     };
 
-    window.electronAPI.enviarDados(dados);
+    try {
+        // Envia os dados para o processo principal (via Electron IPC, por exemplo)
+        await window.electronAPI.enviarFormulario(dados);
+
+        UIkit.modal('#loadingModal').hide(); // Esconde o loading
+        UIkit.notification({ message: 'Cadastro realizado com sucesso!', status: 'success' });
+
+        document.getElementById('cadastroForm').reset(); // Limpa o formulário
+    } catch (err) {
+        UIkit.modal('#loadingModal').hide(); // Esconde o loading
+        UIkit.notification({ message: 'Erro ao cadastrar: ' + err.message, status: 'danger' });
+    }
 });

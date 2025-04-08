@@ -9,7 +9,9 @@ app.whenReady().then(() => {
         width: 800,
         height: 600,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true,
+            nodeIntegration: false,
         }
     });
 
@@ -19,6 +21,17 @@ app.whenReady().then(() => {
         const cadastro = new CadastroEstudante();
         cadastro.dados = dados;  // Define os dados coletados
         await cadastro.cadastrar();
+    });
+    ipcMain.handle('form:enviar', async (event, dados) => {
+        try {
+            // console.log('Dados recebidos do formulário:', dados);
+            const cadastro = new CadastroEstudante();
+            cadastro.dados = dados;
+            await cadastro.cadastrar(); // Aqui deve estar o Puppeteer
+        } catch (error) {
+            console.error('Erro no Puppeteer:', error);
+            throw error;
+        }
     });
 });
 
