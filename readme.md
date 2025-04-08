@@ -5,11 +5,11 @@
 ## .env:
 ### Deve criar um arquivo .env e ele deve conter as seguintes informações
 ```javascript
-    // dados do login
-    USER=
-    PASSWORD=
-    // link do cadastro de estudante
-    LINK_ESTUDANTE
+// dados do login
+USER=
+PASSWORD=
+// link do cadastro de estudante
+LINK_ESTUDANTE
 ```
 
 ## Instalar as dependencias do projeto:
@@ -32,6 +32,6 @@ npx electron-packager . BotElectron --platform=win32 --arch=x64 --out=dist --ove
 ## Criar instalador:
 ### Deve ser criado após criar o executavel: Recomendado rodar como adm no terminal
 ```bash 
-    npm run dist # Cria o executavel na pasta dist
+npm run dist # Cria o executavel na pasta dist
 ```
 Sera criada uma pasta chamada "dist", nela estara o executavel.
