@@ -9,7 +9,7 @@
 USER=
 PASSWORD=
 // link do cadastro de estudante
-LINK_ESTUDANTE
+LINK_ESTUDANTE=
 ```
 
 ## Instalar as dependencias do projeto:
@@ -20,9 +20,8 @@ npm install
 
 ## Ter a pasta chromium do Puppeter na raiz do projeto:
 ```bash
-📁/chromium
-    📁/chrome-win64
-        📝files
+📁/chrome-win64
+    📝files
 ```
 
 ## Criar Executavel:

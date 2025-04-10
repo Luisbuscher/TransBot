@@ -34,7 +34,6 @@ class CadastroEstudante {
     async iniciarNavegador() {
         const chromePath = path.join(
             app.isPackaged ? process.resourcesPath : __dirname,
-            'chromium',
             'chrome-win64',
             'chrome.exe'
         );
