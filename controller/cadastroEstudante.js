@@ -1,8 +1,9 @@
 const puppeteer = require('puppeteer-core');
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '.env') }); // Garante que o executavel achara o .env
+require('dotenv').config({ path: path.join(__dirname, '../.env') }); // Garante que o executavel achara o .env
 const readline = require('readline');
 const { app } = require('electron');
+const { obterDadosEstudanteTeste } = require('../model/estudante');
 
 class CadastroEstudante {
     constructor() {
@@ -21,20 +22,16 @@ class CadastroEstudante {
 
     async coletarDados() {
 
-        this.dadosTeste = {
-            nome: "tst", cpf: "90909090909", nomeMae: "tst", naturalidade: "tst",
-            nascimento: "01010101", endereco: "tst", numero: "tst", bairro: "tst", cidade: "tst", cep: "99999999", serie: "1", grau: "1", curso: "tst"
-        }
-
+        this.dadosTeste = obterDadosEstudanteTeste();
         this.dados;
-
         this.rl.close();
     }
 
     async iniciarNavegador() {
         const chromePath = path.join(
-            app.isPackaged ? process.resourcesPath : __dirname,
-            'chrome-win64',
+            app.isPackaged
+                ? path.join(process.resourcesPath, 'chrome-win64')
+                : path.join(__dirname, '..', 'chrome-win64'),
             'chrome.exe'
         );
         this.browser = await puppeteer.launch({

@@ -29,8 +29,25 @@ document.getElementById('cadastroForm').addEventListener('submit', async (e) => 
         UIkit.notification({ message: 'Cadastro realizado com sucesso!', status: 'success' });
 
         document.getElementById('cadastroForm').reset(); // Limpa o formulário
+
+        // Redireciona para o menu
+        window.location.href = '../index.html'; // ou outro caminho dependendo da estrutura
     } catch (err) {
         UIkit.modal('#loadingModal').hide(); // Esconde o loading
         UIkit.notification({ message: 'Erro ao cadastrar: ' + err.message, status: 'danger' });
+    }
+});
+
+document.getElementById('cadastroIdosoForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const dadosTexto = document.getElementById('dadosIdoso').value;
+
+    try {
+        await window.electronAPI.enviarCadastroIdoso(dadosTexto);
+        UIkit.notification({ message: 'Cadastro de idoso realizado com sucesso!', status: 'success' });
+        document.getElementById('cadastroIdosoForm').reset();
+    } catch (err) {
+        UIkit.notification({ message: 'Erro ao cadastrar idoso: ' + err.message, status: 'danger' });
     }
 });

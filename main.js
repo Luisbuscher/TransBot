@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const CadastroEstudante = require('./cadastroEstudante');
+const CadastroEstudante = require('./controller/cadastroEstudante');
 
 let mainWindow;
 

@@ -10,6 +10,7 @@ USER=
 PASSWORD=
 // link do cadastro de estudante
 LINK_ESTUDANTE=
+LINK_IDOSO=https://max00642.itstransdata.com/TDMax/CadastroGratuitos.aspx
 ```
 
 ## Instalar as dependencias do projeto:
