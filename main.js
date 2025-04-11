@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const CadastroEstudante = require('./controller/cadastroEstudante');
+const CadastroIdoso = require('./controller/cadastroIdoso');
 
 let mainWindow;
 
@@ -32,6 +33,11 @@ app.whenReady().then(() => {
             console.error('Erro no Puppeteer:', error);
             throw error;
         }
+    });
+
+    ipcMain.handle('enviar-cadastro-idoso', async (event, dadosTexto) => {
+        const cadastro = new CadastroIdoso(dadosTexto);
+        await cadastro.cadastrar();
     });
 });
 

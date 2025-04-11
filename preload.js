@@ -2,5 +2,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    enviarFormulario: (dados) => ipcRenderer.invoke('form:enviar', dados)
+    enviarFormulario: (dados) => ipcRenderer.invoke('form:enviar', dados),
+    enviarCadastroIdoso: (dadosTexto) => ipcRenderer.invoke('enviar-cadastro-idoso', dadosTexto)
 });
