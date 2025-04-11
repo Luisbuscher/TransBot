@@ -64,37 +64,76 @@ class CadastroIdoso {
     }
 
     async preencherFormulario() {
-        const {
-            nome, rg, cpf, nascimento, nomeMae, nomePai,
-            cidadeNascimento, endereco, bairro, cep, cidadeAtual,
-            contato, nacionalidade, estadoCivil
-        } = this.dados;
 
         console.log(this.dados)
 
+        // Espera os campos carregarem antes de interagir
+        await this.page.waitForSelector('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome');
+
         // await this.page.waitForSelector('#ctl00_cphconteudo_fvCadastro_txtNome');
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtNome', nome);
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtCpf', cpf);
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtRg', rg);
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtOrgao', 'SSP');
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtDataNascimento', nascimento);
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtNomeMae', nomeMae);
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtNomePai', nomePai);
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtNaturalidade', cidadeNascimento);
-        // await this.page.select('#ctl00_cphconteudo_fvCadastro_ddlNacionalidade', nacionalidade);
-        // await this.page.select('#ctl00_cphconteudo_fvCadastro_ddlEstadoCivil', estadoCivil);
+        await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome', this.dados.nome);
+        await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtCpf', this.dados.cpf);
+        await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtRg', this.dados.rg);
+        await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtEmissor', 'SSP');
+        await this.page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_rbtSexo_0');
+        await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtDataNascimentoGt', this.dados.nascimento);
+        await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtVencimentoCartao', this.dados.vencimento);
+        await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNomeMaeGt', this.dados.nomeMae);
+
+        // SUB-TIPO
+        await this.page.select('#ctl00_cphconteudo_fvCadastro_UcCadastros1_cmbSubTipoPF', '1');
+
+        // Aguarda o carregamento
+        await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
 
         // // Endereço
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtEndereco', endereco);
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtBairro', bairro);
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtCidade', cidadeAtual);
-        // await this.page.select('#ctl00_cphconteudo_fvCadastro_ddlEstado', 'RS');
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtCep', cep);
+        await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvPrincipal_lvEnderecos');
+        // Aguarda o carregamento
+        await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
+        // Novo endereco
+        await this.page.click('#ctl00_cphconteudo_UcEnderecos_btnNovo');
+        // Aguarda o carregamento
+        await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
 
-        // // Contato
-        // await this.page.type('#ctl00_cphconteudo_fvCadastro_txtTelefone', contato);
+        await this.page.type('#ctl00_cphconteudo_UcEnderecos_txtDescricao', 'RESIDENCIAL'); // __PADRÃO__
+        await this.page.type('#ctl00_cphconteudo_UcEnderecos_txtEndereco', this.dados.endereco); // Endereco
+        await this.page.type('#ctl00_cphconteudo_UcEnderecos_txtNumero', '0'); // Numero
+        await this.page.type('#ctl00_cphconteudo_UcEnderecos_txtBairro', this.dados.bairro); // Bairro
+        await this.page.type('#ctl00_cphconteudo_UcEnderecos_txtCidade', this.dados.cidadeAtual); // Cidade
+        await this.page.type('#ctl00_cphconteudo_UcEnderecos_txtCep', this.dados.cep); // Cep
+        await this.page.select('#ctl00_cphconteudo_UcEnderecos_cmbEstado', 'RS'); // Estado
 
-        // // Marca checkboxes de benefício ou outra regra aqui, se necessário.
+        await this.page.click('#ctl00_cphconteudo_UcEnderecos_UcControleNavegacao_btnInserir'); // Inclui
+
+        // Contato
+        await this.page.waitForSelector('#ctl00_cphconteudo_ctl00_cphconteudo_lvEnderecos_lvContatos', { visible: true });
+        await this.page.focus('#ctl00_cphconteudo_ctl00_cphconteudo_lvEnderecos_lvContatos');
+        await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvEnderecos_lvContatos');
+        await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
+
+        await this.page.type('#ctl00_cphconteudo_UCContatos1_txtDescricao', 'PESSOAL'); // __PADRÃO__
+        await this.page.type('#ctl00_cphconteudo_UCContatos1_txtCelular', this.dados.contato); // CELULAR
+
+        await this.page.click('#ctl00_cphconteudo_UCContatos1_UcControleNavegacao_btnInserir'); // Inclui
+
+        // Horarios
+        await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
+        await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvEscolas_lvHorarios');
+        await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
+
+        await this.page.select('#ctl00_cphconteudo_UcTabelaHorarios1_cmbPadraoHorario', '5');
+
+        // Aguarda o carregamento da pagina
+        await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
+        await this.page.evaluate(() => {
+            for (let i = 2; i <= 8; i++) {
+                document.querySelector(`#ctl00_cphconteudo_UcTabelaHorarios1_gvHorario_ctl0${i}_lbeQtdAcesso`).value = '';
+            }
+        });
+        for (let i = 2; i <= 8; i++) {
+            await this.page.type(`#ctl00_cphconteudo_UcTabelaHorarios1_gvHorario_ctl0${i}_lbeQtdAcesso`, '4');
+        }
+
     }
 
     async fechar() {
