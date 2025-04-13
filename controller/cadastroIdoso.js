@@ -64,9 +64,7 @@ class CadastroIdoso {
     }
 
     async preencherFormulario() {
-
-        console.log(this.dados)
-
+        
         // Espera os campos carregarem antes de interagir
         await this.page.waitForSelector('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome');
 
@@ -109,7 +107,14 @@ class CadastroIdoso {
         await this.page.waitForSelector('#ctl00_cphconteudo_ctl00_cphconteudo_lvEnderecos_lvContatos', { visible: true });
         await this.page.focus('#ctl00_cphconteudo_ctl00_cphconteudo_lvEnderecos_lvContatos');
         await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvEnderecos_lvContatos');
-        await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
+
+        // Aguarda o carregamento
+        await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
+
+        await this.page.click('#ctl00_cphconteudo_UCContatos1_btnNovo');
+
+        // Espera os campos carregarem antes de interagir
+        await this.page.waitForSelector('#ctl00_cphconteudo_UCContatos1_txtDescricao');
 
         await this.page.type('#ctl00_cphconteudo_UCContatos1_txtDescricao', 'PESSOAL'); // __PADRÃO__
         await this.page.type('#ctl00_cphconteudo_UCContatos1_txtCelular', this.dados.contato); // CELULAR
@@ -118,7 +123,7 @@ class CadastroIdoso {
 
         // Horarios
         await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
-        await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvEscolas_lvHorarios');
+        await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvContatos_lvHorarios');
         await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
 
         await this.page.select('#ctl00_cphconteudo_UcTabelaHorarios1_cmbPadraoHorario', '5');
