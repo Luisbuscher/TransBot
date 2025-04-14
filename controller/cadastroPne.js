@@ -3,7 +3,7 @@ const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const { app } = require('electron');
 
-class CadastroIdoso {
+class CadastroPne {
     constructor(dadosTexto) {
         this.dadosTexto = dadosTexto; // String colada da planilha, etc
         this.user = process.env.USER;
@@ -20,18 +20,17 @@ class CadastroIdoso {
             nome: partes[2],
             rg: partes[3],
             cpf: partes[4],
-            nascimento: partes[5],
+            nascimento: partes[5].replace(/\//g, ''),
             nomePai: partes[6],
             nomeMae: partes[7],
             cidadeNascimento: partes[8],
-            endereco: partes[9],
-            bairro: partes[10],
-            cep: partes[11],
-            cidadeAtual: partes[12],
-            contato: partes[13],
-            nacionalidade: partes[14],
-            estadoCivil: partes[15],
-            vencimento: partes[16]
+            endereco: partes[10],
+            bairro: partes[11],
+            cep: partes[12],
+            cidadeAtual: partes[13],
+            acompanhante: partes[14],
+            contato: partes[15],
+            vencimento: partes[17].trim().replace(/\//g, '')
         };
     }
 
@@ -66,22 +65,30 @@ class CadastroIdoso {
     async preencherFormulario() {
 
         console.log(this.dados);
-        
+        var acompanhante;
+        var qtd_acesso;
+
+        // Definindo acompanhante.
+        if (this.dados.acompanhante == 'SIM') { acompanhante = '3'; qtd_acesso = '8' } else { acompanhante = '2'; qtd_acesso = '4' }
+
         // Espera os campos carregarem antes de interagir
         await this.page.waitForSelector('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome');
 
-        // await this.page.waitForSelector('#ctl00_cphconteudo_fvCadastro_txtNome');
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome', this.dados.nome);
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtCpf', this.dados.cpf);
-        await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtRg', this.dados.rg);
+        if(this.dados.rg == ''){
+            await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtRg', this.dados.cpf);
+        } else {
+            await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtRg', this.dados.rg);
+        }
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtEmissor', 'SSP');
         await this.page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_rbtSexo_0');
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtDataNascimentoGt', this.dados.nascimento);
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtVencimentoCartao', this.dados.vencimento);
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNomeMaeGt', this.dados.nomeMae);
 
-        // SUB-TIPO
-        await this.page.select('#ctl00_cphconteudo_fvCadastro_UcCadastros1_cmbSubTipoPF', '1');
+        // // SUB-TIPO
+        await this.page.select('#ctl00_cphconteudo_fvCadastro_UcCadastros1_cmbSubTipoPF', acompanhante);
 
         // Aguarda o carregamento
         await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
@@ -138,7 +145,7 @@ class CadastroIdoso {
             }
         });
         for (let i = 2; i <= 8; i++) {
-            await this.page.type(`#ctl00_cphconteudo_UcTabelaHorarios1_gvHorario_ctl0${i}_lbeQtdAcesso`, '4');
+            await this.page.type(`#ctl00_cphconteudo_UcTabelaHorarios1_gvHorario_ctl0${i}_lbeQtdAcesso`, qtd_acesso);
         }
 
     }
@@ -156,4 +163,4 @@ class CadastroIdoso {
     }
 }
 
-module.exports = CadastroIdoso;
+module.exports = CadastroPne;

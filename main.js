@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const CadastroEstudante = require('./controller/cadastroEstudante');
 const CadastroIdoso = require('./controller/cadastroIdoso');
+const CadastroPne = require('./controller/cadastroPne');
 
 let mainWindow;
 
@@ -37,6 +38,11 @@ app.whenReady().then(() => {
 
     ipcMain.handle('enviar-cadastro-idoso', async (event, dadosTexto) => {
         const cadastro = new CadastroIdoso(dadosTexto);
+        await cadastro.cadastrar();
+    });
+
+    ipcMain.handle('enviar-cadastro-pne', async (event, dadosTexto) => {
+        const cadastro = new CadastroPne(dadosTexto);
         await cadastro.cadastrar();
     });
 });
