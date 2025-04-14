@@ -20,7 +20,7 @@ class CadastroIdoso {
             nome: partes[2],
             rg: partes[3],
             cpf: partes[4],
-            nascimento: partes[5],
+            nascimento: partes[5].replace(/\//g, ''),
             nomePai: partes[6],
             nomeMae: partes[7],
             cidadeNascimento: partes[8],
@@ -31,7 +31,7 @@ class CadastroIdoso {
             contato: partes[13],
             nacionalidade: partes[14],
             estadoCivil: partes[15],
-            vencimento: partes[16]
+            vencimento: partes[16].trim().replace(/\//g, '')
         };
     }
 
@@ -71,7 +71,11 @@ class CadastroIdoso {
         // await this.page.waitForSelector('#ctl00_cphconteudo_fvCadastro_txtNome');
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome', this.dados.nome);
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtCpf', this.dados.cpf);
-        await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtRg', this.dados.rg);
+        if(this.dados.rg == ''){
+            await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtRg', this.dados.cpf);
+        } else {
+            await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtRg', this.dados.rg);
+        }
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtEmissor', 'SSP');
         await this.page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_rbtSexo_0');
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtDataNascimentoGt', this.dados.nascimento);
