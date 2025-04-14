@@ -31,8 +31,8 @@
     ],
     "extraResources": [
       {
-        "from": "chromium/",
-        "to": "chromium/"
+        "from": "chrome-win64/",
+        "to": "chrome-win64/"
       }
     ],
     "win": {
