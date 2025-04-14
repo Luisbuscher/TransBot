@@ -45,7 +45,8 @@ class CadastroIdoso {
         this.browser = await puppeteer.launch({
             executablePath: chromePath,
             headless: false,
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--start-maximized'],
+            defaultViewport: null // Usa o tamanho completo da janela
         });
         this.page = await this.browser.newPage();
         this.page.on('dialog', async dialog => await dialog.accept());

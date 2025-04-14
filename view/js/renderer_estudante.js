@@ -10,7 +10,7 @@ document.getElementById('cadastroForm').addEventListener('submit', async (e) => 
         cpf: document.getElementById('cpf').value,
         nomeMae: document.getElementById('nomeMae').value,
         naturalidade: document.getElementById('naturalidade').value,
-        nascimento: document.getElementById('nascimento').value,
+        nascimento: document.getElementById('nascimento').value.replace(/\//g, ''),
         endereco: document.getElementById('endereco').value,
         numero: document.getElementById('numero').value,
         bairro: document.getElementById('bairro').value,

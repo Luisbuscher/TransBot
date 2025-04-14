@@ -58,7 +58,7 @@
             <div class="uk-margin">
                 <label class="uk-form-label" for="nascimento">Data de Nascimento:</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" id="nascimento" type="date" required>
+                    <input class="uk-input" id="nascimento" type="text" required>
                 </div>
             </div>
 
@@ -148,6 +148,7 @@
         $(document).ready(function () {
             $('#cpf').mask('000.000.000-00');
             $('#cep').mask('00000-000');
+            $('#nascimento').mask('00/00/0000');
         });
     </script>
     <script src="./js/renderer_estudante.js"></script>

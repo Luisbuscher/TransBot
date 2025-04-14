@@ -37,7 +37,8 @@ class CadastroEstudante {
         this.browser = await puppeteer.launch({
             executablePath: chromePath,
             headless: false, // True = nao mostra janela chrome; False mostra
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--start-maximized'],
+            defaultViewport: null // Usa o tamanho completo da janela
         });
         this.page = await this.browser.newPage();
         this.page.on('dialog', async dialog => await dialog.accept()); // Fecha alertas
@@ -58,6 +59,8 @@ class CadastroEstudante {
 
     async preencherFormulario() {
         const { nome, cpf, nomeMae, naturalidade, nascimento, endereco, numero, bairro, cidade, cep, serie, grau, curso } = this.dados;
+
+        console.log(this.dados);
 
         // Espera os campos carregarem antes de interagir
         await this.page.waitForSelector('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome');
