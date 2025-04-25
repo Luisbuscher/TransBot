@@ -1,6 +1,6 @@
 {
-  "name": "ultron",
-  "version": "1.0.0",
+  "name": "transbot",
+  "version": "2.0",
   "main": "main.js",
   "author": "",
   "description": "",
@@ -22,7 +22,7 @@
   },
   "build": {
     "appId": "luisbuscher",
-    "productName": "Ultron",
+    "productName": "Transbot",
     "directories": {
       "output": "dist"
     },

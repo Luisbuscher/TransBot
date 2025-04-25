@@ -58,9 +58,10 @@ class CadastroEstudante {
     }
 
     async preencherFormulario() {
-        const { nome, cpf, nomeMae, naturalidade, nascimento, endereco, numero, bairro, cidade, cep, serie, grau, curso } = this.dados;
+        const { nome, cpf, sexo, nomeMae, naturalidade, nascimento, endereco, numero, bairro, cidade, cep, serie, grau, curso } = this.dados;
 
         console.log(this.dados);
+        console.log(sexo);
 
         // Espera os campos carregarem antes de interagir
         await this.page.waitForSelector('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNome');
@@ -69,7 +70,7 @@ class CadastroEstudante {
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtCpf', cpf);
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtRg', cpf);
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtEmissor', 'SSP');
-        await this.page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_rbtSexo_0');
+        await this.page.click(`#ctl00_cphconteudo_fvCadastro_UcCadastros1_rbtSexo_${sexo}`);
         await this.page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_chkLimiteMensal');
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtLimiteMensal', '50'); // Limite mensal
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtDataNascEs', nascimento);

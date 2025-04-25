@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./global.css">
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.24/dist/css/uikit.min.css" />
-
     <!-- UIkit JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.24/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.24/dist/js/uikit-icons.min.js"></script>
@@ -17,12 +18,20 @@
 
 <body>
     <div class="uk-container uk-margin-large-top">
+        <a href="../index.html" class="buttonReturn uk-button">Retornar ao menu</a>
         <h1 class="uk-heading-line uk-text-center"><span>Cadastro de Idoso</span></h1>
 
         <form id="cadastroIdosoForm">
-            <label for="dadosIdoso">Dados do Idoso:</label>
-            <textarea id="dadosIdoso" rows="5" required></textarea>
-            <button type="submit">Cadastrar</button>
+            <div class="uk-width-expand">
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="dadosIdoso" type="text" placeholder="Cole os Dados Aqui" required>
+                </div>
+            </div>
+
+            <!-- Botão de Enviar -->
+            <div class="uk-margin uk-text-center">
+                <button class="uk-button uk-button-primary uk-width-1-1" type="submit">Cadastrar</button>
+            </div>
         </form>
 
     </div>

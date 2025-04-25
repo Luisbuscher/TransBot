@@ -8,6 +8,7 @@ document.getElementById('cadastroForm').addEventListener('submit', async (e) => 
     const dados = {
         nome: document.getElementById('nome').value,
         cpf: document.getElementById('cpf').value,
+        sexo: document.getElementById('sexo').value,
         nomeMae: document.getElementById('nomeMae').value,
         naturalidade: document.getElementById('naturalidade').value,
         nascimento: document.getElementById('nascimento').value.replace(/\//g, ''),
