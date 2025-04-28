@@ -1,5 +1,6 @@
 /node_modules
 /chromium
 /chrome-win64
+/dist
 .env
 test.txt
