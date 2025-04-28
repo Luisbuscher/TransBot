@@ -19,6 +19,9 @@ app.whenReady().then(() => {
 
     mainWindow.loadFile('index.html');
 
+    // Remove o menu
+    mainWindow.setMenu(null);
+
     ipcMain.on('cadastrar-estudante', async (event, dados) => {
         const cadastro = new CadastroEstudante();
         cadastro.dados = dados;  // Define os dados coletados
