@@ -4,8 +4,9 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const { app } = require('electron');
 
 class CadastroIdoso {
-    constructor(dadosTexto) {
+    constructor(dadosTexto, sexo) {
         this.dadosTexto = dadosTexto; // String colada da planilha, etc
+        this.sexo = sexo;
         this.user = process.env.USER;
         this.password = process.env.PASSWORD;
         this.link_idoso = process.env.LINK_IDOSO; // precisa estar no .env
@@ -78,7 +79,7 @@ class CadastroIdoso {
             await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtRg', this.dados.rg);
         }
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtEmissor', 'SSP');
-        await this.page.click('#ctl00_cphconteudo_fvCadastro_UcCadastros1_rbtSexo_0');
+        await this.page.click(`#ctl00_cphconteudo_fvCadastro_UcCadastros1_rbtSexo_${this.sexo}`);
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtDataNascimentoGt', this.dados.nascimento);
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtVencimentoCartao', this.dados.vencimento);
         await this.page.type('#ctl00_cphconteudo_fvCadastro_UcCadastros1_txtNomeMaeGt', this.dados.nomeMae);

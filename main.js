@@ -39,13 +39,13 @@ app.whenReady().then(() => {
         }
     });
 
-    ipcMain.handle('enviar-cadastro-idoso', async (event, dadosTexto) => {
-        const cadastro = new CadastroIdoso(dadosTexto);
+    ipcMain.handle('enviar-cadastro-idoso', async (event, {dadosTexto, sexo}) => {
+        const cadastro = new CadastroIdoso(dadosTexto, sexo);
         await cadastro.cadastrar();
     });
 
-    ipcMain.handle('enviar-cadastro-pne', async (event, dadosTexto) => {
-        const cadastro = new CadastroPne(dadosTexto);
+    ipcMain.handle('enviar-cadastro-pne', async (event, {dadosTexto, sexo}) => {
+        const cadastro = new CadastroPne(dadosTexto, sexo);
         await cadastro.cadastrar();
     });
 });
