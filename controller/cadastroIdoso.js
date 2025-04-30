@@ -90,14 +90,16 @@ class CadastroIdoso {
         // Aguarda o carregamento
         await this.page.waitForNavigation({ waitUntil: 'domcontentloaded' });
 
-        // // Endereço
+        // ENDERECO
+        // Aguarda o carregamento
         await this.page.click('#ctl00_cphconteudo_ctl00_cphconteudo_lvPrincipal_lvEnderecos');
-        // Aguarda o carregamento
-        await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
-        // Novo endereco
+        // Espera aparecer o elemento aguardado
+        await this.page.waitForSelector('#ctl00_cphconteudo_UcEnderecos_btnNovo');
+
+        // Clica em novo endereco
         await this.page.click('#ctl00_cphconteudo_UcEnderecos_btnNovo');
-        // Aguarda o carregamento
-        await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
+        // Espera aparecer o elemento aguardado
+        await this.page.waitForSelector('#ctl00_cphconteudo_UcEnderecos_txtDescricao');
 
         await this.page.type('#ctl00_cphconteudo_UcEnderecos_txtDescricao', 'RESIDENCIAL'); // __PADRÃO__
         await this.page.type('#ctl00_cphconteudo_UcEnderecos_txtEndereco', this.dados.endereco); // Endereco
